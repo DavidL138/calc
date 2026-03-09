@@ -45,41 +45,61 @@ class Calculator {
                 case "%":
                     currentResult = modulus(no1: currentResult, no2: Int(args[index + 1])!);
                 case "+":
-                if (index + 2 < args.count && precOperators.contains(args[index + 2])) {
-                        var pResult: Int = 0;
-                        switch(args[index + 2]) {
-                            case "x":
-                                pResult = multiply(no1: Int(args[index + 1])!, no2: Int(args[index + 3])!);
-                            case "/":
-                                pResult = divide(no1: Int(args[index + 1])!, no2: Int(args[index + 3])!);
-                            case "%":
-                                pResult = modulus(no1: Int(args[index + 1])!, no2: Int(args[index + 3])!);
-                            default:
-                                break;
+                    if (index + 2 < args.count && precOperators.contains(args[index + 2])) {
+                        var pResult: Int = Int(args[index + 1])!;
+                        var pIndex = index + 2;
+                        
+                        while (pIndex < args.count && precOperators.contains(args[pIndex])) {
+                            let nextVal = Int(args[pIndex + 1])!;
+                            
+                            switch(args[pIndex]) {
+                                case "x":
+                                    pResult = multiply(no1: pResult, no2: nextVal);
+                                case "/":
+                                    pResult = divide(no1: pResult, no2: nextVal);
+                                case "%":
+                                    pResult = modulus(no1: pResult, no2: nextVal);
+                                default:
+                                    break;
+                            }
+                            
+                            pIndex += 2;
                         }
+                        
                         currentResult = add(no1: currentResult, no2: pResult);
-                        index += 3;
+                        index = pIndex - 1;
                         continue;
                     }
+                    
                     currentResult = add(no1: currentResult, no2: Int(args[index + 1])!);
                 case "-":
                     if (index + 2 < args.count && precOperators.contains(args[index + 2])) {
-                        var pResult: Int = 0;
-                        switch(args[index + 2]) {
-                            case "x":
-                                pResult = multiply(no1: Int(args[index + 1])!, no2: Int(args[index + 3])!);
-                            case "/":
-                                pResult = divide(no1: Int(args[index + 1])!, no2: Int(args[index + 3])!);
-                            case "%":
-                                pResult = modulus(no1: Int(args[index + 1])!, no2: Int(args[index + 3])!);
-                            default:
-                                break;
+                        var pResult: Int = Int(args[index + 1])!;
+                        var pIndex = index + 2;
+                        
+                        while (pIndex < args.count && precOperators.contains(args[pIndex])) {
+                            let nextVal = Int(args[pIndex + 1])!;
+                            
+                            switch(args[pIndex]) {
+                                case "x":
+                                    pResult = multiply(no1: pResult, no2: nextVal);
+                                case "/":
+                                    pResult = divide(no1: pResult, no2: nextVal);
+                                case "%":
+                                    pResult = modulus(no1: pResult, no2: nextVal);
+                                default:
+                                    break;
+                            }
+                            
+                            pIndex += 2
                         }
+                        
                         currentResult = subtract(no1: currentResult, no2: pResult);
-                        index += 3;
+                        index = pIndex - 1;
                         continue;
                     }
-                    currentResult = subtract(no1: currentResult, no2: Int(args[index + 1])!);
+                    
+                    currentResult = subtract(no1: currentResult, no2: Int(args[index + 1])!)
                 default:
                     break;
             }
