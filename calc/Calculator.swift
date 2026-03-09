@@ -39,61 +39,47 @@ class Calculator {
         while index < args.count {
             switch (args[index]) {
                 case "x":
-                    if (index - 2 >= 0) {
-                        if (args[index - 2] == "+") {
-                            let mResult = multiply(no1: Int(args[index - 1])!, no2: Int(args[index + 1])!);
-                            currentResult = add(no1: currentResult, no2: mResult);
-                            break;
-                        } else if (args[index - 2] == "-") {
-                            let mResult = multiply(no1: Int(args[index - 1])!, no2: Int(args[index + 1])!);
-                            currentResult = subtract(no1: currentResult, no2: mResult);
-                            break;
-                        }
-                    }
                     currentResult = multiply(no1: currentResult, no2: Int(args[index + 1])!);
-                    break;
                 case "/":
-                    if (index - 2 >= 0) {
-                        if (args[index - 2] == "+") {
-                            let dResult = divide(no1: Int(args[index - 1])!, no2: Int(args[index + 1])!);
-                            currentResult = add(no1: currentResult, no2: dResult);
-                            break;
-                        } else if (args[index - 2] == "-") {
-                            let dResult = divide(no1: Int(args[index - 1])!, no2: Int(args[index + 1])!);
-                            currentResult = subtract(no1: currentResult, no2: dResult);
-                            break;
-                        }
-                    }
                     currentResult = divide(no1: currentResult, no2: Int(args[index + 1])!);
-                    break;
                 case "%":
-                    if (index - 2 >= 0) {
-                        if (args[index - 2] == "+") {
-                            let moResult = modulus(no1: Int(args[index - 1])!, no2: Int(args[index + 1])!);
-                            currentResult = add(no1: currentResult, no2: moResult);
-                            break;
-                        } else if (args[index - 2] == "-") {
-                            let moResult = modulus(no1: Int(args[index - 1])!, no2: Int(args[index + 1])!);
-                            currentResult = subtract(no1: currentResult, no2: moResult);
-                            break;
-                        }
-                    }
                     currentResult = modulus(no1: currentResult, no2: Int(args[index + 1])!);
-                    break;
                 case "+":
-                    if (index + 2 < args.count && precOperators.contains(args[index + 2])) {
-                        index += 1;
-                        break;
+                if (index + 2 < args.count && precOperators.contains(args[index + 2])) {
+                        var pResult: Int = 0;
+                        switch(args[index + 2]) {
+                            case "x":
+                                pResult = multiply(no1: Int(args[index + 1])!, no2: Int(args[index + 3])!);
+                            case "/":
+                                pResult = divide(no1: Int(args[index + 1])!, no2: Int(args[index + 3])!);
+                            case "%":
+                                pResult = modulus(no1: Int(args[index + 1])!, no2: Int(args[index + 3])!);
+                            default:
+                                break;
+                        }
+                        currentResult = add(no1: currentResult, no2: pResult);
+                        index += 3;
+                        continue;
                     }
                     currentResult = add(no1: currentResult, no2: Int(args[index + 1])!);
-                    break;
                 case "-":
                     if (index + 2 < args.count && precOperators.contains(args[index + 2])) {
-                        index += 1;
-                        break;
+                        var pResult: Int = 0;
+                        switch(args[index + 2]) {
+                            case "x":
+                                pResult = multiply(no1: Int(args[index + 1])!, no2: Int(args[index + 3])!);
+                            case "/":
+                                pResult = divide(no1: Int(args[index + 1])!, no2: Int(args[index + 3])!);
+                            case "%":
+                                pResult = modulus(no1: Int(args[index + 1])!, no2: Int(args[index + 3])!);
+                            default:
+                                break;
+                        }
+                        currentResult = subtract(no1: currentResult, no2: pResult);
+                        index += 3;
+                        continue;
                     }
                     currentResult = subtract(no1: currentResult, no2: Int(args[index + 1])!);
-                    break;
                 default:
                     break;
             }
