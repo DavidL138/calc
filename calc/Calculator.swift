@@ -33,6 +33,12 @@ class Calculator {
 
     
     func calculate(args: [String]) -> String {
+        let validator = Validator();
+        let isValidInput: Bool = validator.validate(args: args);
+        if (isValidInput == false) {
+            exit(1);
+        }
+    
         let precOperators: [String] = ["x", "/", "%"];
         var currentResult: Int = Int(args[0])!;
         var index: Int = 1;
