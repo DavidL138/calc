@@ -33,12 +33,15 @@ class Calculator {
 
     
     func calculate(args: [String]) -> String {
+        
+        // input validation
         let validator = Validator();
         let isValidInput: Bool = validator.validate(args: args);
         if (isValidInput == false) {
             exit(1);
         }
-    
+        
+        //  calculation code
         let precOperators: [String] = ["x", "/", "%"];
         var currentResult: Int = Int(args[0])!;
         var index: Int = 1;
@@ -51,57 +54,59 @@ class Calculator {
                 case "%":
                     currentResult = modulus(no1: currentResult, no2: Int(args[index + 1])!);
                 case "+":
+                    // calculates all following expressions with a higher ordered operator if one is found after this operator
                     if (index + 2 < args.count && precOperators.contains(args[index + 2])) {
-                        var pResult: Int = Int(args[index + 1])!;
-                        var pIndex = index + 2;
+                        var precOpResult: Int = Int(args[index + 1])!;
+                        var precOpIndex = index + 2;
                         
-                        while (pIndex < args.count && precOperators.contains(args[pIndex])) {
-                            let nextVal = Int(args[pIndex + 1])!;
+                        while (precOpIndex < args.count && precOperators.contains(args[precOpIndex])) {
+                            let nextVal = Int(args[precOpIndex + 1])!;
                             
-                            switch(args[pIndex]) {
+                            switch(args[precOpIndex]) {
                                 case "x":
-                                    pResult = multiply(no1: pResult, no2: nextVal);
+                                    precOpResult = multiply(no1: precOpResult, no2: nextVal);
                                 case "/":
-                                    pResult = divide(no1: pResult, no2: nextVal);
+                                    precOpResult = divide(no1: precOpResult, no2: nextVal);
                                 case "%":
-                                    pResult = modulus(no1: pResult, no2: nextVal);
+                                    precOpResult = modulus(no1: precOpResult, no2: nextVal);
                                 default:
                                     break;
                             }
                             
-                            pIndex += 2;
+                            precOpIndex += 2;
                         }
                         
-                        currentResult = add(no1: currentResult, no2: pResult);
-                        index = pIndex - 1;
+                        currentResult = add(no1: currentResult, no2: precOpResult);
+                        index = precOpIndex - 1;
                         continue;
                     }
                     
                     currentResult = add(no1: currentResult, no2: Int(args[index + 1])!);
                 case "-":
+                    // calculates all following expressions with a higher ordered operator if one is found after this operator
                     if (index + 2 < args.count && precOperators.contains(args[index + 2])) {
-                        var pResult: Int = Int(args[index + 1])!;
-                        var pIndex = index + 2;
+                        var precOpResult: Int = Int(args[index + 1])!;
+                        var precOpIndex = index + 2;
                         
-                        while (pIndex < args.count && precOperators.contains(args[pIndex])) {
-                            let nextVal = Int(args[pIndex + 1])!;
+                        while (precOpIndex < args.count && precOperators.contains(args[precOpIndex])) {
+                            let nextVal = Int(args[precOpIndex + 1])!;
                             
-                            switch(args[pIndex]) {
+                            switch(args[precOpIndex]) {
                                 case "x":
-                                    pResult = multiply(no1: pResult, no2: nextVal);
+                                    precOpResult = multiply(no1: precOpResult, no2: nextVal);
                                 case "/":
-                                    pResult = divide(no1: pResult, no2: nextVal);
+                                    precOpResult = divide(no1: precOpResult, no2: nextVal);
                                 case "%":
-                                    pResult = modulus(no1: pResult, no2: nextVal);
+                                    precOpResult = modulus(no1: precOpResult, no2: nextVal);
                                 default:
                                     break;
                             }
                             
-                            pIndex += 2
+                            precOpIndex += 2
                         }
                         
-                        currentResult = subtract(no1: currentResult, no2: pResult);
-                        index = pIndex - 1;
+                        currentResult = subtract(no1: currentResult, no2: precOpResult);
+                        index = precOpIndex - 1;
                         continue;
                     }
                     

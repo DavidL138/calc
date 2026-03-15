@@ -8,6 +8,7 @@
 
 import Foundation
 
+// checks if input to the calculator is valid and throws corresponding error
 class Validator {
     func validate(args: [String]) -> Bool {
         var isValidInput: Bool = true;
