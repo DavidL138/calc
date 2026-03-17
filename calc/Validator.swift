@@ -9,18 +9,26 @@
 import Foundation
 
 // checks if input to the calculator is valid and throws corresponding error
+enum InvalidInputError: Error {
+    case incompleteExpression
+    case unknownOperator(unknownOperator: String)
+    case invalidNumber(invalidNumber: String)
+}
+
 class Validator {
-    func validate(args: [String]) -> Bool {
-        var isValidInput: Bool = true;
+
+    func validate(args: [String]) throws -> Void {
         let operators: [String] = ["x", "/", "%", "+", "-"];
         if (args.count % 2 == 0) {
-            isValidInput = false;
+            throw InvalidInputError.incompleteExpression;
         }
         for i in 0..<args.count {
             if (i % 2 != 0 && !(operators.contains(args[i]))) {
-                isValidInput = false;
+                throw InvalidInputError.unknownOperator(unknownOperator: args[i]);
+            }
+            if (i % 2 == 0 && Int(args[i]) == nil) {
+                throw InvalidInputError.invalidNumber(invalidNumber: args[i]);
             }
         }
-        return isValidInput;
     }
 }

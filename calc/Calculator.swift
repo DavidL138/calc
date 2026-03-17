@@ -36,9 +36,20 @@ class Calculator {
         
         // input validation
         let validator = Validator();
-        let isValidInput: Bool = validator.validate(args: args);
-        if (isValidInput == false) {
+        do {
+            try validator.validate(args: args);
+        } catch InvalidInputError.incompleteExpression {
+            print("Incomplete expression. Expected input of the form [number] [operator number ...]");
             exit(1);
+        } catch InvalidInputError.unknownOperator(let unknownOperator) {
+            print("Unknown Operator: \(unknownOperator)")
+            exit(1);
+        } catch InvalidInputError.invalidNumber(let invalidNumber) {
+            print("Invalid Number: \(invalidNumber)");
+            exit(1);
+        }
+        catch {
+            print("Unexpected error")
         }
         
         //  calculation code
@@ -80,8 +91,9 @@ class Calculator {
                         index = precOpIndex - 1;
                         continue;
                     }
-                    
+                if (index + 1 < args.count) {
                     currentResult = add(no1: currentResult, no2: Int(args[index + 1])!);
+                }
                 case "-":
                     // calculates all following expressions with a higher ordered operator if one is found after this operator
                     if (index + 2 < args.count && precOperators.contains(args[index + 2])) {
