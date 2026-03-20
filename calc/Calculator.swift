@@ -42,14 +42,14 @@ class Calculator {
             print("Incomplete expression. Expected input of the form [number] [operator number ...]");
             exit(1);
         } catch InvalidInputError.unknownOperator(let unknownOperator) {
-            print("Unknown Operator: \(unknownOperator)")
+            print("Unknown Operator: \(unknownOperator)");
             exit(1);
         } catch InvalidInputError.invalidNumber(let invalidNumber) {
             print("Invalid Number: \(invalidNumber)");
             exit(1);
         }
         catch {
-            print("Unexpected error")
+            print("Unexpected error");
         }
         
         //  calculation code
