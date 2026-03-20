@@ -13,6 +13,7 @@ enum InvalidInputError: Error {
     case incompleteExpression
     case unknownOperator(unknownOperator: String)
     case invalidNumber(invalidNumber: String)
+    case divideByZero
 }
 
 class Validator {
@@ -28,6 +29,9 @@ class Validator {
             }
             if (i % 2 == 0 && Int(args[i]) == nil) {
                 throw InvalidInputError.invalidNumber(invalidNumber: args[i]);
+            }
+            if (i > 0 && args[i] == "0" && args[i - 1] == "/") {
+                throw InvalidInputError.divideByZero
             }
         }
     }

@@ -47,6 +47,9 @@ class Calculator {
         } catch InvalidInputError.invalidNumber(let invalidNumber) {
             print("Invalid Number: \(invalidNumber)");
             exit(1);
+        } catch InvalidInputError.divideByZero {
+            print("Division by zero");
+            exit(1);
         }
         catch {
             print("Unexpected error");

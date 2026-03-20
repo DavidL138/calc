@@ -77,19 +77,19 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "12"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "x"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "/"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "2"
-            isEnabled = "YES">
+            argument = "0"
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
    </LaunchAction>
